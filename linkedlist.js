@@ -46,16 +46,51 @@ class LinkedList{
         }
         return number;
     }
+
+    //the value of first node
+    head(){
+
+        if(this.root.next === null) return undefined;
+
+        return this.root.next.data;
+        
+    }
+
+    //the value of last node
+    tail(){
+        if(this.root.next === null) return undefined;
+
+        let tmp = this.root;
+        while(tmp.next !== null) tmp = tmp.next;
+        return tmp.data;
+    }
+
+    at(index){
+        let tmp = this.root;
+
+        if(this.size() - 1 < index) return undefined;
+
+        while(index && tmp !== null){
+            tmp = tmp.next;
+            index--;
+        }
+        
+        return tmp !== null ? tmp.data : undefined;
+    }
 }
 
 const test = new LinkedList();
 
-const n1 = new Node(23);
-const n2 = new Node(24);
-test.append(n1);
-test.append(n2);
-test.append(new Node(25));
-test.append(new Node(26));
-test.prepend(new Node(1));
+// const n1 = new Node(23);
+// const n2 = new Node(24);
+// test.append(n1);
+// test.append(n2);
+// test.append(new Node(25));
+// test.append(new Node(26));
+// test.prepend(new Node(1));
 
-console.log(test.size());
+for(let i = 0; i < 8; i+= 2){
+    test.append(new Node(`thenumber${i}`));
+}
+
+console.log(test.at(3));
