@@ -50,7 +50,7 @@ class LinkedList{
     //the value of first node
     head(){
 
-        if(this.root.next === null) return undefined;
+        if(this.root.data === null) return undefined;
 
         return this.root.next.data;
         
@@ -58,14 +58,15 @@ class LinkedList{
 
     //the value of last node
     tail(){
-        if(this.root.next === null) return undefined;
+        if(this.root.data === null) return undefined;
 
         let tmp = this.root;
         while(tmp.next !== null) tmp = tmp.next;
         return tmp.data;
     }
 
-    at(index){
+    //return data at index input
+    at(index){ 
         let tmp = this.root;
 
         if(this.size() - 1 < index) return undefined;
@@ -77,20 +78,48 @@ class LinkedList{
         
         return tmp !== null ? tmp.data : undefined;
     }
+
+    //remove head node and return its value
+    pop(){
+        if(this.root.data === null) return undefined;
+
+        let ans = this.root.data;
+        this.root = this.root.next;
+        return ans;
+    }
+
+    contains(value){
+        let tmp = this.root;
+
+        while(tmp !== null){
+            if(tmp.data === value) return true;
+            tmp = tmp.next;
+        }
+        return false;
+    }
+
+    findIndex(value){
+        if(this.root.data === null) return -1;
+        let index = 1;
+        let tmp = this.root;
+        while(tmp !== null){
+            if(tmp.data === value) return index;
+            tmp = tmp.next;
+            index++;
+        }
+        
+    }
 }
 
 const test = new LinkedList();
 
-// const n1 = new Node(23);
-// const n2 = new Node(24);
-// test.append(n1);
-// test.append(n2);
-// test.append(new Node(25));
-// test.append(new Node(26));
-// test.prepend(new Node(1));
+const n1 = new Node(23);
+const n2 = new Node(24);
+test.append(n1);
+test.append(n2);
+test.append(new Node(25));
+test.append(new Node(26));
+test.prepend(new Node(1));
 
-for(let i = 0; i < 8; i+= 2){
-    test.append(new Node(`thenumber${i}`));
-}
 
-console.log(test.at(3));
+console.log(test.findIndex(25));
