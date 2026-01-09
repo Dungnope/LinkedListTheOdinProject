@@ -107,6 +107,8 @@ class LinkedList{
             tmp = tmp.next;
             index++;
         }
+
+        return -1;
         
     }
 }
@@ -122,4 +124,4 @@ test.append(new Node(26));
 test.prepend(new Node(1));
 
 
-console.log(test.findIndex(25));
+console.log(test.findIndex(231));
