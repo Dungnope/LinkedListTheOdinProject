@@ -13,7 +13,7 @@ class LinkedList{
     //add new node at the end of list
     append(data){
         if(this.root.data === null){
-            this.root = data;
+            this.root.data = data;
         }
         else{
             let tmp = this.root;
@@ -88,6 +88,7 @@ class LinkedList{
         return ans;
     }
 
+    //check if value in list or not
     contains(value){
         let tmp = this.root;
 
@@ -98,6 +99,7 @@ class LinkedList{
         return false;
     }
 
+    //return index of value if exist
     findIndex(value){
         if(this.root.data === null) return -1;
         let index = 1;
@@ -109,19 +111,42 @@ class LinkedList{
         }
 
         return -1;
-        
+    }
+
+    toString(){
+        if(this.root.data === null) return `( ) -> `;
+        let ans = "";
+        let tmp = this.root;
+        while(tmp !== null){
+            ans += `( ${tmp.data} )`;
+            ans += " -> ";
+            tmp = tmp.next;
+        }
+        ans += tmp;
+        return ans;
     }
 }
 
 const test = new LinkedList();
 
-const n1 = new Node(23);
-const n2 = new Node(24);
-test.append(n1);
-test.append(n2);
-test.append(new Node(25));
-test.append(new Node(26));
-test.prepend(new Node(1));
+//test add to head of list
+for(let i = 0; i < 5; i++){
+    test.prepend(new Node(`No.${i}`));
+}
+
+console.log(test.toString());
+
+//test delete to the list
+for(let i = 0; i < 4; i++){
+    test.pop();
+}
+
+console.log(test.toString());
 
 
-console.log(test.findIndex(231));
+//test add to tail of list
+for(let i = 1; i < 5; i++){
+    test.append(new Node(`No. 0${i}`));
+}
+
+console.log(test.toString());
