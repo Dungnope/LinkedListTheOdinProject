@@ -88,8 +88,9 @@ class LinkedList{
     pop(){
         if(this.checkBlank()) return undefined;
 
-        let ans = this.root.data;
+        let ans = this.root;
         this.root = this.root.next;
+        ans.next = null;
         return ans;
     }
 
@@ -131,8 +132,24 @@ class LinkedList{
         return ans;
     }
 
+    //insert elements at specific position
     insertAt(index, ...value){
 
+        //check whether index in head or tail
+        if(index === 0){
+            for (const item of value.reverse()) {
+                this.prepend(new Node(item));
+            }
+            return;
+        }
+        else if(index === this.size() - 1){
+            for (const item of value) {
+                this.append(new Node(item));
+            }
+            return;
+        }
+
+        //check if index out of bound
         if(index > this.size() - 1 || index < 0) return `RangeError`;
 
         // make array become linkedlist
@@ -145,8 +162,10 @@ class LinkedList{
             return list_from_array;
         }
 
+
         //create new list from array
-        let neighbour_list = convertToList(value);
+        let array_list = convertToList(value);
+
 
         let tmp_head = this.root;
         while(index > 1){
@@ -157,10 +176,10 @@ class LinkedList{
         //make a node that point to next node of tmp_head
         let tmp_catch_tail = tmp_head.next;
 
-        // make tmp_head node point to neighbour_list
-        tmp_head.next = neighbour_list.root;
+        // make tmp_head node point to array_list
+        tmp_head.next = array_list.root;
 
-        // tmp_tail point to first node of neighbour_list
+        // tmp_tail point to first node of array_list
         let tmp_tail = tmp_head;
         while(tmp_tail.next !== null) tmp_tail = tmp_tail.next;
         tmp_tail.next = tmp_catch_tail;
@@ -174,6 +193,5 @@ for(let i = 0; i < 5; i++){
     test.append(new Node(i));
 }
 
-
-test.insertAt(2, 1.4, 1.6, 1.8);
-console.log(test);
+test.insertAt(0, 7, 8, 9);
+console.log(test.toString());
