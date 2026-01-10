@@ -184,6 +184,29 @@ class LinkedList{
         while(tmp_tail.next !== null) tmp_tail = tmp_tail.next;
         tmp_tail.next = tmp_catch_tail;
     }
+    
+    removeAt(index){
+        if(index > this.size() - 1 || index < 0) return `RangeError`;
+
+        //check whether index in head or tail
+        if(index === 0){
+            this.pop();
+            return;
+        }
+        else if(index === this.size() - 1){
+            let tmp = this.root;
+            while(tmp.next.next !== null) tmp = tmp.next;
+            tmp.next = null;
+            return;
+        }
+
+        let tmp = this.root;
+        while(index > 1){
+            tmp_head = tmp_head.next;
+            index--;
+        }
+        tmp.next = tmp.next.next;
+    }
 }
 
 const test = new LinkedList();
@@ -193,5 +216,5 @@ for(let i = 0; i < 5; i++){
     test.append(new Node(i));
 }
 
-test.insertAt(0, 7, 8, 9);
+test.removeAt(1);
 console.log(test.toString());
