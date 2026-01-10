@@ -9,11 +9,16 @@ class LinkedList{
     constructor(){
         this.root = new Node;
     }
+
+    //check blank list
+    checkBlank(){
+        return this.root.data === null ? true : false;
+    }
     
     //add new node at the end of list
     append(data){
-        if(this.root.data === null){
-            this.root.data = data;
+        if(this.checkBlank()){
+            this.root = data;
         }
         else{
             let tmp = this.root;
@@ -25,7 +30,7 @@ class LinkedList{
 
     //add new node at start of list
     prepend(data){
-        if(this.root.data === null){
+        if(this.checkBlank()){
             this.root = data;
         }
         else{
@@ -50,7 +55,7 @@ class LinkedList{
     //the value of first node
     head(){
 
-        if(this.root.data === null) return undefined;
+        if(this.checkBlank()) return undefined;
 
         return this.root.next.data;
         
@@ -58,7 +63,7 @@ class LinkedList{
 
     //the value of last node
     tail(){
-        if(this.root.data === null) return undefined;
+        if(this.checkBlank()) return undefined;
 
         let tmp = this.root;
         while(tmp.next !== null) tmp = tmp.next;
@@ -81,7 +86,7 @@ class LinkedList{
 
     //remove head node and return its value
     pop(){
-        if(this.root.data === null) return undefined;
+        if(this.checkBlank()) return undefined;
 
         let ans = this.root.data;
         this.root = this.root.next;
@@ -101,8 +106,8 @@ class LinkedList{
 
     //return index of value if exist
     findIndex(value){
-        if(this.root.data === null) return -1;
-        let index = 1;
+        if(this.checkBlank()) return -1;
+        let index = 0;
         let tmp = this.root;
         while(tmp !== null){
             if(tmp.data === value) return index;
@@ -114,7 +119,7 @@ class LinkedList{
     }
 
     toString(){
-        if(this.root.data === null) return `( ) -> `;
+        if(this.checkBlank()) return `( ) -> `;
         let ans = "";
         let tmp = this.root;
         while(tmp !== null){
@@ -125,28 +130,50 @@ class LinkedList{
         ans += tmp;
         return ans;
     }
+
+    insertAt(index, ...value){
+
+        if(index > this.size() - 1 || index < 0) return `RangeError`;
+
+        // make array become linkedlist
+        function convertToList(array){
+            let list_from_array = new LinkedList();
+            for(let i = 0; i < array.length; i++){
+                list_from_array.append(new Node(array[i]));
+            }
+
+            return list_from_array;
+        }
+
+        //create new list from array
+        let neighbour_list = convertToList(value);
+
+        let tmp_head = this.root;
+        while(index > 1){
+            tmp_head = tmp_head.next;
+            index--;
+        }
+
+        //make a node that point to next node of tmp_head
+        let tmp_catch_tail = tmp_head.next;
+
+        // make tmp_head node point to neighbour_list
+        tmp_head.next = neighbour_list.root;
+
+        // tmp_tail point to first node of neighbour_list
+        let tmp_tail = tmp_head;
+        while(tmp_tail.next !== null) tmp_tail = tmp_tail.next;
+        tmp_tail.next = tmp_catch_tail;
+    }
 }
 
 const test = new LinkedList();
 
 //test add to head of list
 for(let i = 0; i < 5; i++){
-    test.prepend(new Node(`No.${i}`));
+    test.append(new Node(i));
 }
 
-console.log(test.toString());
 
-//test delete to the list
-for(let i = 0; i < 4; i++){
-    test.pop();
-}
-
-console.log(test.toString());
-
-
-//test add to tail of list
-for(let i = 1; i < 5; i++){
-    test.append(new Node(`No. 0${i}`));
-}
-
-console.log(test.toString());
+test.insertAt(2, 1.4, 1.6, 1.8);
+console.log(test);
