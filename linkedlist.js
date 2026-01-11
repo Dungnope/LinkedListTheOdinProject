@@ -18,24 +18,24 @@ class LinkedList{
     //add new node at the end of list
     append(data){
         if(this.checkBlank()){
-            this.root = data;
+            this.root = new Node(data);
         }
         else{
             let tmp = this.root;
-            while(tmp.next !== null) tmp = tmp.next;
+            while(tmp.next !== null) tmp = tmp.next; 
 
-            tmp.next = data;
+            tmp.next = new Node(data);
         }
     }
 
     //add new node at start of list
     prepend(data){
         if(this.checkBlank()){
-            this.root = data;
+            this.root = new Node(data);
         }
         else{
             let tmp = this.root;
-            this.root = data;
+            this.root = new Node(data);
             this.root.next = tmp;
         } 
     }
@@ -138,13 +138,13 @@ class LinkedList{
         //check whether index in head or tail
         if(index === 0){
             for (const item of value.reverse()) {
-                this.prepend(new Node(item));
+                this.prepend(item);
             }
             return;
         }
         else if(index === this.size() - 1){
             for (const item of value) {
-                this.append(new Node(item));
+                this.append(item);
             }
             return;
         }
@@ -156,7 +156,7 @@ class LinkedList{
         function convertToList(array){
             let list_from_array = new LinkedList();
             for(let i = 0; i < array.length; i++){
-                list_from_array.append(new Node(array[i]));
+                list_from_array.append(array[i]);
             }
 
             return list_from_array;
@@ -202,7 +202,7 @@ class LinkedList{
 
         let tmp = this.root;
         while(index > 1){
-            tmp_head = tmp_head.next;
+            tmp = tmp.next;
             index--;
         }
         tmp.next = tmp.next.next;
@@ -211,10 +211,17 @@ class LinkedList{
 
 const test = new LinkedList();
 
-//test add to head of list
-for(let i = 0; i < 5; i++){
-    test.append(new Node(i));
-}
+//add node to the end of list test
+test.append("dog");
+test.append("cat");
+test.append("parrot");
+test.append("hamster");
+test.append("snake");
+test.append("turtle");
+test.insertAt(2, "mouse");
 
-test.removeAt(1);
+//test convert linkedlist to string
+console.log(test.toString());
+
+test.removeAt(3); // test remove at position
 console.log(test.toString());
